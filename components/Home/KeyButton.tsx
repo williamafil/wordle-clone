@@ -4,11 +4,13 @@ import clsx from "clsx";
 interface KeyButtonProps {
   children?: React.ReactNode;
   value: string;
+  onKeyPress: (key: string) => void;
 }
 
 function KeyButton(props: KeyButtonProps) {
   return (
     <button
+      onClick={() => props.onKeyPress(props.value)}
       className={clsx(
         "h-14 rounded-md bg-gray-300",
         "flex items-center justify-center",
