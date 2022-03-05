@@ -2,7 +2,8 @@ import React from "react";
 import clsx from "clsx";
 
 interface KeyButtonProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
+  value: string;
 }
 
 function KeyButton(props: KeyButtonProps) {
@@ -11,10 +12,13 @@ function KeyButton(props: KeyButtonProps) {
       className={clsx(
         "h-14 rounded-md bg-gray-300",
         "flex items-center justify-center",
-        "active:bg-gray-400"
+        "active:bg-gray-400",
+        "text-sm uppercase",
+        props.value === "enter" ? "font-bold " : "font-semibold "
       )}
     >
-      {props.children}
+      {props.value === "backspace" && props.children}
+      {props.value !== "backspace" && props.value}
     </button>
   );
 }
