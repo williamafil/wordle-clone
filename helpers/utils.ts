@@ -1,4 +1,6 @@
-export function bgColor (check: string | null): string {
+import { Word } from 'types'
+
+export function bgColor(check: string | null): string {
   if (check === "correct-pos") {
     return "bg-green-700 border-green-700 text-white"
   }
@@ -11,13 +13,17 @@ export function bgColor (check: string | null): string {
   return "bg-transparent";
 }
 
-export function borderColor (val: string | null, check: string | null): string {
+export function borderColor(val: string | null, check: string | null): string {
   if (val && check) {
     return "border-transparent"
   }
   if (!val) {
     return "border-red-200"
   }
- 
+
   return "border-gray-500"
+}
+
+export function extractWord(word: Word) {
+  return word.map(obj => obj.value).join('')
 }

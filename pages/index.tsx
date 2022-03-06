@@ -5,17 +5,29 @@ import Image from "next/image";
 import Grids from "../components/Home/Grids";
 import Keyboard from "../components/Home/Keyboard";
 import Container from "../components/Layout/Container";
+import { Word } from "types";
+
+import { extractWord } from "helpers/utils";
+
+// [
+//   { check: "wrong-letter", value: "r" },
+//   { check: "correct-pos", value: "e" },
+//   { check: "wrong-pos", value: "s" },
+//   { check: "wrong-letter", value: "i" },
+//   { check: "correct-pos", value: "n" },
+// ],
 
 const Home: NextPage = () => {
-  const [round, setRound] = useState(1);
+  const [round, setRound] = useState(0);
   const [position, setPosition] = useState(0);
-  const [record, setRecord] = useState([
+
+  const [record, setRecord] = useState<Word[]>([
     [
-      { check: "wrong-letter", value: "r" },
-      { check: "correct-pos", value: "e" },
-      { check: "wrong-pos", value: "s" },
-      { check: "wrong-letter", value: "i" },
-      { check: "correct-pos", value: "n" },
+      { check: null, value: null },
+      { check: null, value: null },
+      { check: null, value: null },
+      { check: null, value: null },
+      { check: null, value: null },
     ],
     [
       { check: null, value: null },
@@ -54,19 +66,32 @@ const Home: NextPage = () => {
     ],
   ]);
 
+  const wordSubmissionHandler = async (word: string) => {
+    console.log("SUBMIT WORD: ", word);
+    const res = await fetch("/api/spell-check", {
+      method: "POST",
+      body: word,
+    });
+    const data = res.json();
+    console.log("res data: ", data);
+  };
+
   const keyPressHandler = (key: string) => {
     if (round === 6) return; // game is over
     if (key === "enter") {
       console.log("ENTER");
       if (position < 5) return;
-      setRound((prev) => (prev += 1));
-      setPosition(0);
+
+      const wordToSubmit = extractWord(record[round]);
+      wordSubmissionHandler(wordToSubmit);
+      // setRound((prev) => (prev += 1));
+      // setPosition(0);
       return;
     }
     if (key === "backspace") {
       if (position === 0) return; // disable backspace when position is 0
       setRecord((prev) => {
-        prev[round][position - 1].value = "";
+        prev[round][position - 1].value = null;
         return prev;
       });
       setPosition((prev) => (prev -= 1));
