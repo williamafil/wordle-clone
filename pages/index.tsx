@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 import type { NextPage } from "next";
 import Head from "next/head";
@@ -5,17 +6,9 @@ import Image from "next/image";
 import Grids from "../components/Home/Grids";
 import Keyboard from "../components/Home/Keyboard";
 import Container from "../components/Layout/Container";
-import { Word } from "types";
+import { Word, Letter } from "types";
 
 import { extractWord } from "helpers/utils";
-
-// [
-//   { check: "wrong-letter", value: "r" },
-//   { check: "correct-pos", value: "e" },
-//   { check: "wrong-pos", value: "s" },
-//   { check: "wrong-letter", value: "i" },
-//   { check: "correct-pos", value: "n" },
-// ],
 
 const Home: NextPage = () => {
   const [round, setRound] = useState(0);
@@ -67,19 +60,29 @@ const Home: NextPage = () => {
   ]);
 
   const wordSubmissionHandler = async (word: string) => {
-    console.log("SUBMIT WORD: ", word);
-    const res = await fetch("/api/spell-check", {
-      method: "POST",
-      body: word,
+    const res = await axios.post("/api/spell-check", {
+      data: word,
     });
-    const data = res.json();
-    console.log("res data: ", data);
+
+    if (res.data.correction) {
+      // true
+      res.data.result.map((letter: Letter, i: number) => {
+        setRecord((prev) => {
+          prev[round][i] = letter;
+          return prev;
+        });
+      });
+
+      setRound((prev) => (prev += 1));
+      setPosition(0);
+    } else {
+      // false -> animation
+    }
   };
 
   const keyPressHandler = (key: string) => {
-    if (round === 6) return; // game is over
+    if (round === 6) return; // game over
     if (key === "enter") {
-      console.log("ENTER");
       if (position < 5) return;
 
       const wordToSubmit = extractWord(record[round]);
@@ -91,8 +94,9 @@ const Home: NextPage = () => {
     if (key === "backspace") {
       if (position === 0) return; // disable backspace when position is 0
       setRecord((prev) => {
-        prev[round][position - 1].value = null;
-        return prev;
+        const newRecord = [...prev];
+        newRecord[round][position - 1].value = null;
+        return newRecord;
       });
       setPosition((prev) => (prev -= 1));
       return;

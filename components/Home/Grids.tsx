@@ -1,35 +1,65 @@
 import React from "react";
 import clsx from "clsx";
 import { bgColor, borderColor } from "../../helpers/utils";
-
+import { Word } from "types";
+// import { Word } from "../../types";
 interface GridsProps {
-  record: { check: null | string; value: null | string }[][];
+  record: Word[];
 }
 
 function Grids(props: GridsProps) {
+  const bgColor = (check: string | null): string => {
+    switch (check) {
+      case "correct-pos":
+        return "bg-green-600 border-green-600 text-white";
+      case "wrong-pos":
+        return "bg-yellow-500 border-yellow-500 text-white";
+      case "wrong-letter":
+        return "bg-gray-400 border-gray-400 text-white";
+      case null:
+        return "bg-transparent";
+      default:
+        return "bg-transparent";
+    }
+  };
+
+  const borderColor = (val: string | null, check: string | null): string => {
+    if (val && !check) {
+      return "border-gray-400";
+    }
+    return "";
+  };
+
   return (
-    <div className="mx-auto h-full flex justify-center items-center">
-      <section className="space-y-2">
-        {props.record.map((round, roundIdx) => (
-          <div key={roundIdx} className="grid grid-cols-5 gap-2">
-            {round.map((item, posIdx) => (
-              <div
-                key={posIdx}
-                className={clsx(
-                  "p-2 aspect-square w-16 border-2",
-                  "flex justify-center items-center",
-                  "text-3xl font-extrabold uppercase",
-                  borderColor(item.value, item.check),
-                  bgColor(item.check)
-                )}
-              >
-                {item.value}
-              </div>
-            ))}
-          </div>
-        ))}
-      </section>
-    </div>
+    <>
+      <div className="mx-auto h-full flex justify-center items-center">
+        <section className="space-y-2">
+          {props.record.map((round, roundIdx) => (
+            <div key={roundIdx} className="grid grid-cols-5 gap-2">
+              {round.map((item, posIdx) => (
+                <div
+                  key={posIdx}
+                  className={clsx(
+                    "p-2 aspect-square w-16 border-2",
+                    "flex justify-center items-center",
+                    "text-3xl font-extrabold uppercase",
+                    bgColor(item.check),
+                    // item.check === "correct-pos" ? "bg-green-500" : ""
+                    // props.record[roundIdx][posIdx].check === "correct-pos"
+                    //   ? "bg-green-500"
+                    //   : ""
+                    borderColor(item.value, item.check)
+                    // bgColor(props.record[roundIdx][posIdx].check)
+                  )}
+                >
+                  {item.value}
+                </div>
+              ))}
+            </div>
+          ))}
+        </section>
+      </div>
+    </>
   );
 }
 
