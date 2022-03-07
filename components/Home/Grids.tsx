@@ -1,8 +1,6 @@
-import React from "react";
 import clsx from "clsx";
-import { bgColor, borderColor } from "../../helpers/utils";
+import React from "react";
 import { Word } from "types";
-// import { Word } from "../../types";
 interface GridsProps {
   record: Word[];
 }
@@ -44,12 +42,7 @@ function Grids(props: GridsProps) {
                     "flex justify-center items-center",
                     "text-3xl font-extrabold uppercase",
                     bgColor(item.check),
-                    // item.check === "correct-pos" ? "bg-green-500" : ""
-                    // props.record[roundIdx][posIdx].check === "correct-pos"
-                    //   ? "bg-green-500"
-                    //   : ""
                     borderColor(item.value, item.check)
-                    // bgColor(props.record[roundIdx][posIdx].check)
                   )}
                 >
                   {item.value}

@@ -1,18 +1,26 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
 import axios from 'axios'
+import type { NextApiRequest, NextApiResponse } from 'next'
+import { MongoClient } from 'mongodb'
+import { connectDB, getTodaysWord } from 'helpers/db'
 
-interface OptionsType {
-  method: string;
-  url: string;
-  params: {
-    q: string;
-  };
-  headers: {
-    apikey: string | undefined;
-  };
+// interface OptionsType {
+//   method: string;
+//   url: string;
+//   params: {
+//     q: string;
+//   };
+//   headers: {
+//     apikey: string | undefined;
+//   };
+// }
+
+interface ResponseType {
+  _id: {}
+  word: string
+  date: string
 }
 
-const todaysWord = 'prove'
+let todaysWord: string = ''
 
 function matchWord(answer: string, wordToMatch: string) {
 
@@ -68,21 +76,34 @@ async function wordAssociate(word: string) {
       console.error('Axios Error: ', error)
     } else {
       // handleUnexpectedError(error);
-      console.error('Unexpect Error: ', error)
+      console.error('Unexpected Error: ', error)
     }
   }
 }
 
-
 async function spellCheck(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
-
     const submittedWord = req.body.data
     const wordData = await wordAssociate(submittedWord)
+
     if (wordData.corrections.length === 0) {
+      const client = await connectDB()
+      const result = await getTodaysWord(client)
+      todaysWord = result
+
       // correct
-      const result = matchWord(todaysWord, submittedWord)
-      res.status(200).json({ correction: true, result })
+      const match = matchWord(todaysWord, submittedWord)
+
+      let isCorrect: boolean = false;
+      for (let i = 0; i < 5; i++) {
+        if (match[i].check !== 'correct-pos') {
+          isCorrect = false;
+          break;
+        }
+        isCorrect = true
+      }
+
+      res.status(200).json({ correction: true, result: match, isCorrect })
     } else {
       // no such word
       res.status(200).json({ correction: false })
