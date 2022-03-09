@@ -21,46 +21,46 @@ const Home: NextPage = () => {
   const [position, setPosition] = useState(0);
   const [record, setRecord] = useState<Word[]>([
     [
-      { check: null, checkNum: 0, value: null },
-      { check: null, checkNum: 0, value: null },
-      { check: null, checkNum: 0, value: null },
-      { check: null, checkNum: 0, value: null },
-      { check: null, checkNum: 0, value: null },
+      { checkNum: 0, value: null },
+      { checkNum: 0, value: null },
+      { checkNum: 0, value: null },
+      { checkNum: 0, value: null },
+      { checkNum: 0, value: null },
     ],
     [
-      { check: null, checkNum: 0, value: null },
-      { check: null, checkNum: 0, value: null },
-      { check: null, checkNum: 0, value: null },
-      { check: null, checkNum: 0, value: null },
-      { check: null, checkNum: 0, value: null },
+      { checkNum: 0, value: null },
+      { checkNum: 0, value: null },
+      { checkNum: 0, value: null },
+      { checkNum: 0, value: null },
+      { checkNum: 0, value: null },
     ],
     [
-      { check: null, checkNum: 0, value: null },
-      { check: null, checkNum: 0, value: null },
-      { check: null, checkNum: 0, value: null },
-      { check: null, checkNum: 0, value: null },
-      { check: null, checkNum: 0, value: null },
+      { checkNum: 0, value: null },
+      { checkNum: 0, value: null },
+      { checkNum: 0, value: null },
+      { checkNum: 0, value: null },
+      { checkNum: 0, value: null },
     ],
     [
-      { check: null, checkNum: 0, value: null },
-      { check: null, checkNum: 0, value: null },
-      { check: null, checkNum: 0, value: null },
-      { check: null, checkNum: 0, value: null },
-      { check: null, checkNum: 0, value: null },
+      { checkNum: 0, value: null },
+      { checkNum: 0, value: null },
+      { checkNum: 0, value: null },
+      { checkNum: 0, value: null },
+      { checkNum: 0, value: null },
     ],
     [
-      { check: null, checkNum: 0, value: null },
-      { check: null, checkNum: 0, value: null },
-      { check: null, checkNum: 0, value: null },
-      { check: null, checkNum: 0, value: null },
-      { check: null, checkNum: 0, value: null },
+      { checkNum: 0, value: null },
+      { checkNum: 0, value: null },
+      { checkNum: 0, value: null },
+      { checkNum: 0, value: null },
+      { checkNum: 0, value: null },
     ],
     [
-      { check: null, checkNum: 0, value: null },
-      { check: null, checkNum: 0, value: null },
-      { check: null, checkNum: 0, value: null },
-      { check: null, checkNum: 0, value: null },
-      { check: null, checkNum: 0, value: null },
+      { checkNum: 0, value: null },
+      { checkNum: 0, value: null },
+      { checkNum: 0, value: null },
+      { checkNum: 0, value: null },
+      { checkNum: 0, value: null },
     ],
   ]);
 
@@ -81,8 +81,6 @@ const Home: NextPage = () => {
       });
 
       if (res.data.isCorrect) {
-        // setRound(5);
-        // setPosition(5);
         setIsGameOver(true);
         setIsLoading(false);
         setRound((prev) => (prev += 1));
