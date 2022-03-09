@@ -6,27 +6,47 @@ interface GridsProps {
 }
 
 function Grids(props: GridsProps) {
-  const bgColor = (check: string | null): string => {
-    switch (check) {
-      case "correct-pos":
+  const bgColor = (checkNum: number): string => {
+    switch (checkNum) {
+      case 3:
         return "bg-green-600 border-green-600 text-white";
-      case "wrong-pos":
+      case 2:
         return "bg-yellow-500 border-yellow-500 text-white";
-      case "wrong-letter":
+      case 1:
         return "bg-gray-400 border-gray-400 text-white";
-      case null:
+      case 0:
         return "bg-transparent";
       default:
         return "bg-transparent";
     }
   };
+  // const bgColor = (check: string | null): string => {
+  //   switch (check) {
+  //     case "correct-pos":
+  //       return "bg-green-600 border-green-600 text-white";
+  //     case "wrong-pos":
+  //       return "bg-yellow-500 border-yellow-500 text-white";
+  //     case "wrong-letter":
+  //       return "bg-gray-400 border-gray-400 text-white";
+  //     case null:
+  //       return "bg-transparent";
+  //     default:
+  //       return "bg-transparent";
+  //   }
+  // };
 
-  const borderColor = (val: string | null, check: string | null): string => {
-    if (val && !check) {
+  const borderColor = (val: string | null, checkNum: number): string => {
+    if (val && !checkNum) {
       return "border-gray-400";
     }
     return "";
   };
+  // const borderColor = (val: string | null, check: string | null): string => {
+  //   if (val && !check) {
+  //     return "border-gray-400";
+  //   }
+  //   return "";
+  // };
 
   return (
     <>
@@ -41,8 +61,9 @@ function Grids(props: GridsProps) {
                     "p-2 aspect-square w-16 border-2",
                     "flex justify-center items-center",
                     "text-3xl font-extrabold uppercase",
-                    bgColor(item.check),
-                    borderColor(item.value, item.check)
+                    // bgColor(item.check),
+                    bgColor(item.checkNum),
+                    borderColor(item.value, item.checkNum)
                   )}
                 >
                   {item.value}

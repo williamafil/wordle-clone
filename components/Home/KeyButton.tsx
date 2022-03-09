@@ -5,6 +5,7 @@ interface KeyButtonProps {
   children?: React.ReactNode;
   value: string;
   onKeyPress: (key: string) => void;
+  className?: string;
 }
 
 function KeyButton(props: KeyButtonProps) {
@@ -16,7 +17,8 @@ function KeyButton(props: KeyButtonProps) {
         "flex items-center justify-center",
         "active:bg-gray-400",
         "text-sm uppercase",
-        props.value === "enter" ? "font-bold " : "font-semibold "
+        props.value === "enter" ? "font-bold " : "font-semibold ",
+        props.className
       )}
     >
       {props.value === "backspace" && props.children}

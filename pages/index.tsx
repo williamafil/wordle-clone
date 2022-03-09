@@ -9,6 +9,11 @@ import Grids from "../components/Home/Grids";
 import Keyboard from "../components/Home/Keyboard";
 import Container from "../components/Layout/Container";
 
+// checkNum: 3, check: 'correct-pos'
+// checkNum: 2, check: 'wrong-pos'
+// checkNum: 1, check: 'wrong-letter'
+// checkNum: 0 default value
+
 const Home: NextPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isGameOver, setIsGameOver] = useState(false);
@@ -16,46 +21,46 @@ const Home: NextPage = () => {
   const [position, setPosition] = useState(0);
   const [record, setRecord] = useState<Word[]>([
     [
-      { check: null, value: null },
-      { check: null, value: null },
-      { check: null, value: null },
-      { check: null, value: null },
-      { check: null, value: null },
+      { check: null, checkNum: 0, value: null },
+      { check: null, checkNum: 0, value: null },
+      { check: null, checkNum: 0, value: null },
+      { check: null, checkNum: 0, value: null },
+      { check: null, checkNum: 0, value: null },
     ],
     [
-      { check: null, value: null },
-      { check: null, value: null },
-      { check: null, value: null },
-      { check: null, value: null },
-      { check: null, value: null },
+      { check: null, checkNum: 0, value: null },
+      { check: null, checkNum: 0, value: null },
+      { check: null, checkNum: 0, value: null },
+      { check: null, checkNum: 0, value: null },
+      { check: null, checkNum: 0, value: null },
     ],
     [
-      { check: null, value: null },
-      { check: null, value: null },
-      { check: null, value: null },
-      { check: null, value: null },
-      { check: null, value: null },
+      { check: null, checkNum: 0, value: null },
+      { check: null, checkNum: 0, value: null },
+      { check: null, checkNum: 0, value: null },
+      { check: null, checkNum: 0, value: null },
+      { check: null, checkNum: 0, value: null },
     ],
     [
-      { check: null, value: null },
-      { check: null, value: null },
-      { check: null, value: null },
-      { check: null, value: null },
-      { check: null, value: null },
+      { check: null, checkNum: 0, value: null },
+      { check: null, checkNum: 0, value: null },
+      { check: null, checkNum: 0, value: null },
+      { check: null, checkNum: 0, value: null },
+      { check: null, checkNum: 0, value: null },
     ],
     [
-      { check: null, value: null },
-      { check: null, value: null },
-      { check: null, value: null },
-      { check: null, value: null },
-      { check: null, value: null },
+      { check: null, checkNum: 0, value: null },
+      { check: null, checkNum: 0, value: null },
+      { check: null, checkNum: 0, value: null },
+      { check: null, checkNum: 0, value: null },
+      { check: null, checkNum: 0, value: null },
     ],
     [
-      { check: null, value: null },
-      { check: null, value: null },
-      { check: null, value: null },
-      { check: null, value: null },
-      { check: null, value: null },
+      { check: null, checkNum: 0, value: null },
+      { check: null, checkNum: 0, value: null },
+      { check: null, checkNum: 0, value: null },
+      { check: null, checkNum: 0, value: null },
+      { check: null, checkNum: 0, value: null },
     ],
   ]);
 
@@ -65,8 +70,6 @@ const Home: NextPage = () => {
     const res = await axios.post("/api/spell-check", {
       data: word,
     });
-
-    console.log("res.data", res.data);
 
     if (res.data.correction) {
       // true
@@ -82,6 +85,8 @@ const Home: NextPage = () => {
         // setPosition(5);
         setIsGameOver(true);
         setIsLoading(false);
+        setRound((prev) => (prev += 1));
+        setPosition(0);
         return;
       }
 
@@ -144,7 +149,11 @@ const Home: NextPage = () => {
         )}
         <Grids record={record} />
         <footer className="flex-shrink-0 h-56">
-          <Keyboard onKeyPress={keyPressHandler} />
+          <Keyboard
+            currentRound={round}
+            record={record}
+            onKeyPress={keyPressHandler}
+          />
         </footer>
       </Container>
     </div>

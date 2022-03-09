@@ -35,6 +35,7 @@ function matchWord(answer: string, wordToMatch: string) {
       if (idx === i) {
         const res = {
           check: 'correct-pos',
+          checkNum: 3,
           value: wordArr[i],
         }
         result.push(res)
@@ -42,6 +43,7 @@ function matchWord(answer: string, wordToMatch: string) {
       } else {
         const res = {
           check: 'wrong-pos',
+          checkNum: 2,
           value: wordArr[i],
         }
         result.push(res)
@@ -50,6 +52,7 @@ function matchWord(answer: string, wordToMatch: string) {
     } else {
       const res = {
         check: 'wrong-letter',
+        checkNum: 1,
         value: wordArr[i],
       }
       result.push(res)
