@@ -1,6 +1,5 @@
-import axios, { HeadersDefaults, AxiosRequestHeaders } from 'axios'
+import axios, { AxiosRequestHeaders } from 'axios'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { MongoClient } from 'mongodb'
 import { connectDB, getTodaysWord } from 'helpers/db'
 
 
@@ -17,6 +16,12 @@ interface CommonHeaderProperties extends AxiosRequestHeaders {
 
 let todaysWord: string = ''
 
+/**
+ * Match two words
+ * @param answer - user's submitted word
+ * @param wordToMatch - today's word
+ * @returns - an array
+ */
 function matchWord(answer: string, wordToMatch: string) {
 
   const answerArr = answer.split('')
@@ -56,22 +61,12 @@ function matchWord(answer: string, wordToMatch: string) {
   return result
 }
 
+/**
+ * Spelling Check API
+ * @param word - user's submitted word
+ * @returns - an object
+ */
 async function wordAssociate(word: string) {
-
-  // const myHeaders = new Headers();
-  // myHeaders.append("apikey", process.env.API_KEY);
-
-  // const requestOptions = {
-  //   method: 'GET',
-  //   redirect: 'follow',
-  //   headers: myHeaders
-  // };
-
-  // fetch(`https://api.apilayer.com/spell/spellchecker?q=${word}`, requestOptions)
-  //   .then(response => response.text())
-  //   .then(result => console.log(result))
-  //   .catch(error => console.log('error', error));
-
   axios.defaults.headers.common = {
     'apikey': process.env.API_KEY,
   } as CommonHeaderProperties;
@@ -79,9 +74,6 @@ async function wordAssociate(word: string) {
   const url = 'https://api.apilayer.com/spell/spellchecker'
   const options = {
     params: { q: word },
-    // headers: {
-    //   'apikey': process.env.API_KEY,
-    // }
   };
 
   try {
@@ -98,6 +90,11 @@ async function wordAssociate(word: string) {
   }
 }
 
+/**
+ * 
+ * @param req 
+ * @param res 
+ */
 async function spellCheck(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
     const submittedWord = req.body.data
@@ -113,7 +110,6 @@ async function spellCheck(req: NextApiRequest, res: NextApiResponse) {
 
       let isCorrect: boolean = false;
       for (let i = 0; i < 5; i++) {
-        // if (match[i].check !== 'correct-pos') {
         if (match[i].checkNum !== 3) {
           isCorrect = false;
           break;

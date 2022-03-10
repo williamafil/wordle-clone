@@ -1,6 +1,6 @@
 import axios from "axios";
 import Head from "next/head";
-import { useState } from "react";
+import { useState, useEffect, ReactEventHandler } from "react";
 import type { NextPage } from "next";
 
 import { Word, Letter } from "types";
@@ -8,6 +8,8 @@ import { extractWord } from "helpers/utils";
 import Grids from "../components/Home/Grids";
 import Keyboard from "../components/Home/Keyboard";
 import Container from "../components/Layout/Container";
+
+import useKeyEvent from "hooks/useKeyEvent";
 
 // checkNum: 3, check: 'correct-pos'
 // checkNum: 2, check: 'wrong-pos'
@@ -126,6 +128,8 @@ const Home: NextPage = () => {
 
     setPosition((prev) => (prev += 1));
   };
+
+  useKeyEvent("keydown", keyPressHandler);
 
   return (
     <div className="h-full">
