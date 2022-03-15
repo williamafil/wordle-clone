@@ -67,10 +67,10 @@ function Keyboard(props: KeyboardProps) {
       case 1:
         return "bg-zinc-400";
       case 0: {
-        return "bg-transparent";
+        return "";
       }
       default:
-        return "bg-transparent";
+        return "";
     }
   };
 
@@ -175,7 +175,7 @@ function Keyboard(props: KeyboardProps) {
           value="l"
         />
       </div>
-      <div className="grid grid-flow-col  gap-2">
+      <div className="grid grid-flow-col gap-2">
         <KeyButton onKeyPress={props.onKeyPress} value="enter" />
         <KeyButton
           className={checkKeyColor("z")}
