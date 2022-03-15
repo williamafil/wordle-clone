@@ -1,8 +1,9 @@
 import axios from "axios";
 import Head from "next/head";
-import { useState, useEffect, ReactEventHandler } from "react";
+import { useState } from "react";
 import type { NextPage } from "next";
 
+import { initialRecord } from "../data";
 import { Word, Letter } from "types";
 import { extractWord } from "helpers/utils";
 import Grids from "../components/Home/Grids";
@@ -21,50 +22,7 @@ const Home: NextPage = () => {
   const [isGameOver, setIsGameOver] = useState(false);
   const [round, setRound] = useState(0);
   const [position, setPosition] = useState(0);
-  const [record, setRecord] = useState<Word[]>([
-    [
-      { checkNum: 0, value: null },
-      { checkNum: 0, value: null },
-      { checkNum: 0, value: null },
-      { checkNum: 0, value: null },
-      { checkNum: 0, value: null },
-    ],
-    [
-      { checkNum: 0, value: null },
-      { checkNum: 0, value: null },
-      { checkNum: 0, value: null },
-      { checkNum: 0, value: null },
-      { checkNum: 0, value: null },
-    ],
-    [
-      { checkNum: 0, value: null },
-      { checkNum: 0, value: null },
-      { checkNum: 0, value: null },
-      { checkNum: 0, value: null },
-      { checkNum: 0, value: null },
-    ],
-    [
-      { checkNum: 0, value: null },
-      { checkNum: 0, value: null },
-      { checkNum: 0, value: null },
-      { checkNum: 0, value: null },
-      { checkNum: 0, value: null },
-    ],
-    [
-      { checkNum: 0, value: null },
-      { checkNum: 0, value: null },
-      { checkNum: 0, value: null },
-      { checkNum: 0, value: null },
-      { checkNum: 0, value: null },
-    ],
-    [
-      { checkNum: 0, value: null },
-      { checkNum: 0, value: null },
-      { checkNum: 0, value: null },
-      { checkNum: 0, value: null },
-      { checkNum: 0, value: null },
-    ],
-  ]);
+  const [record, setRecord] = useState<Word[]>(initialRecord);
 
   const wordSubmissionHandler = async (word: string) => {
     if (isGameOver) return;
@@ -101,6 +59,7 @@ const Home: NextPage = () => {
   const keyPressHandler = (key: string) => {
     if (isLoading || isGameOver) return;
     if (round === 6) return; // game over
+
     if (key === "enter") {
       if (position < 5) return;
 

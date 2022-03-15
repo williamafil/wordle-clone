@@ -14,8 +14,6 @@ function Placeholder(props: PlaceholderProps) {
   useEffect(() => {
     const onPageLoad = () => {
       if (item.value !== null) {
-        console.log("animation");
-
         setPlayAnimation(true);
       } else {
         setPlayAnimation(false);
