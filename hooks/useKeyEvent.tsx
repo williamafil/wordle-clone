@@ -15,7 +15,8 @@ function useKeyEvent(eventName: string, eventHandler: (key: string) => void) {
         return savedEventHandler.current("enter");
       } else if (e.which >= 65 && e.which <= 90) {
         if (e.key.length > 1) return;
-        return savedEventHandler.current(e.key);
+        const letter = String.fromCharCode(e.which).toLowerCase();
+        return savedEventHandler.current(letter);
       } else {
         return;
       }
