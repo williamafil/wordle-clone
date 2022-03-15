@@ -35,7 +35,7 @@ const Home: NextPage = () => {
     const res = await axios.post("/api/spell-check", {
       data: word,
     });
-    console.log("spell check res", res);
+
     if (res.data.correction) {
       // true
       res.data.result.map((letter: Letter, i: number) => {
