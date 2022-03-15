@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { BackspaceIcon } from "../Icons";
+import Icons from "../Icons/Icons";
 import KeyButton from "./KeyButton";
 import { Word } from "types";
 
@@ -213,7 +213,7 @@ function Keyboard(props: KeyboardProps) {
           value="m"
         />
         <KeyButton onKeyPress={props.onKeyPress} value="backspace">
-          <BackspaceIcon />
+          <Icons.Backspace className="w-6" />
         </KeyButton>
       </div>
     </div>

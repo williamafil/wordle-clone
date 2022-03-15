@@ -1,5 +1,0 @@
-export {default as QuestionIcon} from './QuestionIcon'
-export {default as ChartIcon} from './ChartIcon'
-export {default as SettingIcon} from './SettingIcon'
-export {default as MenuIcon} from './MenuIcon'
-export {default as BackspaceIcon} from './BackspaceIcon'
