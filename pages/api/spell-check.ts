@@ -86,6 +86,7 @@ async function wordAssociate(word: string) {
     } else {
       // handleUnexpectedError(error);
       console.error('Unexpected Error: ', error)
+      return error;
     }
   }
 }

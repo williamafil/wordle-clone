@@ -4,7 +4,7 @@ import { useState } from "react";
 import type { NextPage } from "next";
 
 import { initialRecord } from "../data";
-import { Word, Letter } from "types";
+import { Word, Letter, SpellCheckProps } from "types";
 import { extractWord } from "helpers/utils";
 import Grids from "../components/Home/Grids";
 import Keyboard from "../components/Home/Keyboard";
@@ -23,6 +23,11 @@ const Home: NextPage = () => {
   const [round, setRound] = useState(0);
   const [position, setPosition] = useState(0);
   const [record, setRecord] = useState<Word[]>(initialRecord);
+  // const [spellCheck, setSpellCheck] = useState("");
+  const [spellCheck, setSpellCheck] = useState<SpellCheckProps>({
+    spelling: "",
+    round,
+  });
 
   const wordSubmissionHandler = async (word: string) => {
     if (isGameOver) return;
@@ -30,7 +35,7 @@ const Home: NextPage = () => {
     const res = await axios.post("/api/spell-check", {
       data: word,
     });
-
+    console.log("spell check res", res);
     if (res.data.correction) {
       // true
       res.data.result.map((letter: Letter, i: number) => {
@@ -52,6 +57,10 @@ const Home: NextPage = () => {
       setPosition(0);
     } else {
       // false -> animation
+      setSpellCheck((prev) => ({
+        spelling: "incorrect",
+        round,
+      }));
     }
     setIsLoading(false);
   };
@@ -108,7 +117,7 @@ const Home: NextPage = () => {
             </p>
           </div>
         )}
-        <Grids record={record} />
+        <Grids record={record} spellCheck={spellCheck} />
         <footer className="flex-shrink-0 h-56">
           <Keyboard
             currentRound={round}
